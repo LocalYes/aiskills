@@ -33,18 +33,18 @@ Note: If your data is noisy, setting `TOP_K_MASKED_SKILLS` too low will hurt res
 
 - **Adjust skills to a requirement (rationale):**
   1. `chatgpt_skills_filtering` includes two parameters `include_rationale_step (T/F)` and `rationale_statement (String)`
-  2. Enabling the first and setting the second to something such as "skills must be on a level reasonable for a junior/senior highschool student to know." would make the model go over each skill an rationalize if it should be present.
+  2. Enabling the first and setting the second to something such as "skills must be on a level reasonable for a junior/senior highschool student to know." would make the model go over each skill to rationalize if it should be present.
 
 ## Other notes
 - Runs almost entirely in the cloud using the OpenAI API. No GPU requirements.
 - **Cost and speed:**
   - **That is with all ChatGPT filtering options enabled**
-  - About `200,000` words per $1        
-  - About `160,000` words per hour
+    - About `200,000` words per $1        
+    - About `160,000` words per hour
 
   - **That is only using embeddings, consequently about 5 times faster.**
-  - About `750,000` words per $0.1     
-  - About `600,000` words per hour
+    - About `750,000` words per $0.1     
+    - About `600,000` words per hour
     
 - Note, it's a developement version, few things are still rough.
 
@@ -52,7 +52,7 @@ Note: If your data is noisy, setting `TOP_K_MASKED_SKILLS` too low will hurt res
 
 Accounting Technician I
 
-link to posting: https://www.governmentjobs.com/careers/northcarolina/jobs/5016399/accounting-technician-i?page=2&pagetype=jobOpportunitiesJobs
+link to the posting: https://www.governmentjobs.com/careers/northcarolina/jobs/5016399/accounting-technician-i?page=2&pagetype=jobOpportunitiesJobs
 
 To demonstrate model's abilities, the description was copied together with noise (eg. "please contact Lyndsey Schrier at (910) 944-2359").
 
