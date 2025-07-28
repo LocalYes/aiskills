@@ -1,7 +1,7 @@
 # aiskills
 Semantic skill analysis for job postings, college courses, and high school courses.
 
-cheap, accurate, customizabl
+cheap, accurate, customizable
 
 ## Process overview
 
