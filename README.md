@@ -37,8 +37,8 @@ This setup keeps you close to the important skills from the embeddings and bring
 ## Other notes
 - Runs almost entirely in the cloud using the OpenAI API. No GPU requirements.
 - **Cost and speed:**
-  - About `60,000` words per $1        **//That is with all ChatGPT filtering enabled**
-  - About `45,000` words per hour
+  - About `75,000` words per $1        **//That is with all ChatGPT filtering enabled**
+  - About `60,000` words per hour
  
   - About `750,000` words per $0.1     **//That is only using embeddings, consequently about 5 times faster.**
   - About `300,000` words per hour
