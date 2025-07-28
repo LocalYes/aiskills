@@ -13,7 +13,7 @@ Semantic skill analysis for job postings, college courses, and high school cours
 The repository includes main.py, which roughly demonstrates how this process can be done. 
 Output example is at the end.
 
-### **Important note, to run you need the skill embedding `ESCO_embeddings.pkl`, due to the file size, please ask for them directly.**
+### **Important note, in order to run the analysis, you need the skill embeddings `ESCO_embeddings.pkl`, due to the file size, please request it directly.**
 
 ## Optional features
 
