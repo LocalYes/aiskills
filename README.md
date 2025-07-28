@@ -1,4 +1,4 @@
-### aiskills
+# aiskills
 Semantic skill analysis for job postings, college courses, and high school courses.
 cheap, accurate, advanced.
 
