@@ -1,7 +1,7 @@
 # aiskills
 Semantic skill analysis for job postings, college courses, and high school courses.
 
-cheap, accurate, advanced.
+cheap, accurate, customizabl
 
 ## Process overview
 
@@ -9,7 +9,7 @@ cheap, accurate, advanced.
 - Embeds both skills `(ESCO 13800)` and text with `text-embedding-3-large`.
 - cosine similarity
 - Runs a custom skill filtering algorithm.
-- Includes a ChatGPT filtering to reduce false positives/negatives.
+- Includes an optional ChatGPT filtering step to reduce false positives/negatives.
 
 The repository includes main.py, which roughly demonstrates how this process can be done. 
 Output example is at the end.
@@ -56,4 +56,4 @@ To demonstrate model's abilities, the description was copied together with noise
 
 Output:
 
-['accounting_methods', 'trust_fund_accounting', 'offender_welfare_accounting', 'fiscal_policy_compliance', 'accounts_payable', 'purchasing_procedures', 'data_analysis', 'microsoft_excel', 'microsoft_word', 'spreadsheet_management', 'record_keeping']
+['accounting_methods', 'trust_fund_accounting', 'offender_welfare_accounting', 'fiscal_policy_compliance', 'purchasing_procedures', 'accounts_payable', 'data_analysis', 'problem_solving', 'microsoft_excel', 'microsoft_word', 'spreadsheet_management', 'document_log_maintenance', 'office_equipment_operation']
