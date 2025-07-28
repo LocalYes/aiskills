@@ -1,22 +1,22 @@
 import json
-
 from skill_extraction import extract_skills_text_list, get_skills_clusters, retrieve_skills_from_clusters
 from skill_filtering import chatgpt_skills_filtering
 from utils import truncate_skills
 
+with open(r"C:\Users\user\OneDrive\Desktop\aiskills\example_data.json", "r", encoding="utf-8") as file:           # replace with your path
+    example_data = json.load(file)
 
+
+"""Get top skill matches"""
 TOP_K_MASKED_SKILLS = 13000
 TOP_K_SKILLS = 80
 
-with open(r"C:\Users\artio\OneDrive\Desktop\aiskills\example_data.json", "r", encoding="utf-8") as file:
-    example_data = json.load(file)
-
 top_skills_data = extract_skills_text_list(example_data, TOP_K_MASKED_SKILLS, TOP_K_SKILLS)
+"""Get top skill matches"""
 
-### Cluster step, comment out if not required 
-# IMPORTANT, after this step, viewing the similarity scores becomes impossible.
-# The similarity score must be remove before this step.
 
+
+"""Expand skills from the clusters"""
 top_skills_data = [[skill[0] for skill in top_skills] for top_skills in top_skills_data]
 TOP_OG_SKILLS = 40
 
@@ -31,11 +31,13 @@ for all_skills in top_skills_data:
 
     top_skills = list(set(top_og_skills + cluster_skills))
     print(f"\ntop_skills\n{top_skills}\n")
+"""Expand skills from the clusters"""
 
-### Cluster step end, comment out if not required
 
+
+"""Filter skills using ChatGPT"""
 skills_filtered = chatgpt_skills_filtering(example_data, top_og_skills, "gpt-4.1-mini")
 
 print(skills_filtered)
-
+"""Filter skills using ChatGPT"""
 
