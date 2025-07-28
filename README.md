@@ -41,8 +41,7 @@ This setup keeps you close to the important skills from the embeddings and bring
   - About `200,000` words per $1        
   - About `160,000` words per hour
 
-
- - **That is only using embeddings, consequently about 5 times faster.**
+  - **That is only using embeddings, consequently about 5 times faster.**
   - About `750,000` words per $0.1     
   - About `600,000` words per hour
     
