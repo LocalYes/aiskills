@@ -1,6 +1,7 @@
 # aiskills
 Semantic skill analysis for job postings, college courses, and high school courses.
-\ncheap, accurate, advanced.
+
+cheap, accurate, advanced.
 
 ## Process overview
 
@@ -10,7 +11,7 @@ Semantic skill analysis for job postings, college courses, and high school cours
 - Runs a custom skill filtering algorithm.
 - Includes a ChatGPT filtering to reduce false positives/negatives.
 
-\nThe repository includes main.py, which roughly demonstrates how this process can be done. 
+The repository includes main.py, which roughly demonstrates how this process can be done. 
 Output example is at the end.
 
 ## Optional features
@@ -47,8 +48,12 @@ This setup keeps you close to the important skills from the embeddings and bring
 ## Example
 
 Accounting Technician I
-\nlink to posting: https://www.governmentjobs.com/careers/northcarolina/jobs/5016399/accounting-technician-i?page=2&pagetype=jobOpportunitiesJobs
-\nTo demonstrate model's abilities, the description was copied together with noise (eg. "please contact Lyndsey Schrier at (910) 944-2359").
 
-\nOutput:
-\n['accounting_methods', 'trust_fund_accounting', 'offender_welfare_accounting', 'fiscal_policy_compliance', 'accounts_payable', 'purchasing_procedures', 'data_analysis', 'microsoft_excel', 'microsoft_word', 'spreadsheet_management', 'record_keeping']
+link to posting: https://www.governmentjobs.com/careers/northcarolina/jobs/5016399/accounting-technician-i?page=2&pagetype=jobOpportunitiesJobs
+
+To demonstrate model's abilities, the description was copied together with noise (eg. "please contact Lyndsey Schrier at (910) 944-2359").
+
+
+Output:
+
+['accounting_methods', 'trust_fund_accounting', 'offender_welfare_accounting', 'fiscal_policy_compliance', 'accounts_payable', 'purchasing_procedures', 'data_analysis', 'microsoft_excel', 'microsoft_word', 'spreadsheet_management', 'record_keeping']
