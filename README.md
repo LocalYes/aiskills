@@ -1,33 +1,34 @@
-# aiskills                                                    
-Semantic skill analysis for job postings, collage courses, and high school courses.
+# aiskills
 
-# Rough process description:
-- stanza and RAKE to segment input text into sentences.
-- text-embedding-3-large for skill and text embeddings.
-- custom skill filtering algorithm, to find top matching skills after cosine similarity
-- ChatGPT feedback loop to filter out FPs and FNs. (and in the case of courses, assess whether some skill is a realistic expectation).
-- outputs a ready JSON file.
+Semantic skill analysis for job postings, college courses, and high school courses.
 
-# Optional features:
-- Enahnce the skill coverage using clusters from the ESCO skill hierarchy.
-  1. Get the skills for your text using *extract_skills_text_list* preferebly with *TOP_K_SKILLS=300*
-  2. Use the *get_truncated_skills* to get two versions of your skills, the original one with 300 (used for clusters), and the real skills from *get_truncated_skills*, preferebly 20-30.
-  3. Use *populate_skills_using_clusters* to find most popular skill clusters from the 300 skills.
-  4. Extend the real skills with the clusters skills.
-  5. continue...
+## Process overview
 
-(This process allows to have the most important skills recieved from the embeddings, and include ALL of the skills from most popular skill clusters, which, if you are using ChatGPT, is likely to gaurenty for no missed skills).
+- Uses stanza and RAKE to split input text into sentences.
+- Embeds both skills and text with `text-embedding-3-large`.
+- Runs a custom skill filtering algorithm—returns top matching skills using cosine similarity.
+- Includes a ChatGPT feedback loop to reduce false positives/negatives. For courses, it can also check if certain skills are realistic.
+- Outputs a ready-to-use JSON file.
 
-- Adjust the skill granularity, by changing the *TOP_K_MASKED_SKILLS*
-  1. By making *TOP_K_MASKED_SKILLS* smaller you allow for skills which appear only in a few sentences, but with high confidence, to pass. Set value to (300 - 4,000)
-  2. By making *TOP_K_MASKED_SKILLS* bigger you allow for skills which appear a lot in many sentence to pass. Set value to (11,000 - 13,000)
+## Optional features
 
-(**IMPORTANT:** if your data is noise, a small *TOP_K_MASKED_SKILLS* will lead to poor performance.)
+- **Enhance skill coverage with ESCO clusters:**
+  1. Extract skills from your text with `extract_skills_text_list` (ideally with `TOP_K_SKILLS=300`).
+  2. Use `get_truncated_skills` to create two sets: a full set (300 skills, used for clusters), and a shorter, "real" set (20-30 recommended).
+  3. `populate_skills_using_clusters` can identify popular skill clusters in the large set.
+  4. Add the relevant cluster skills to your real set.
+  5. Continue as normal.
 
-# Other information
-The system is almost fully based on cloud computing, thanks to OpenAI API. No GPU requirements
+This setup keeps you close to the important skills from the embeddings and brings in all the skills from popular clusters. If you use ChatGPT for review, you’re much less likely to miss something important.
 
-Price and processing latency 
-- around 50k words / 1$        (200 job postings)
-- around 35k words / 1 hours   (150 job postings) 
+- **Adjust skill granularity:**
+  1. Smaller `TOP_K_MASKED_SKILLS` values (300–4,000): lets through rarer but high-confidence skills (appearing in only a few sentences).
+  2. Larger values (11,000–13,000): lets through more frequent skills, even if confidence is moderate.
+  3. Note: If your data is noisy, setting `TOP_K_MASKED_SKILLS` too low will hurt results.
 
+## Other notes
+
+- Runs almost entirely in the cloud using the OpenAI API. No GPU required.
+- **Cost and speed:**
+  - About 50,000 words per $1 (roughly 200 job postings)
+  - About 35,000 words per hour (roughly 150 job postings)
