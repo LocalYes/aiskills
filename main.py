@@ -2,8 +2,12 @@ import json
 from skill_extraction import extract_skills_text_list, get_skills_clusters, retrieve_skills_from_clusters
 from skill_filtering import chatgpt_skills_filtering
 from utils import truncate_skills
+import os
 
-with open(r"C:\Users\user\OneDrive\Desktop\aiskills\example_data.json", "r", encoding="utf-8") as file:           # replace with your path
+base_dir = os.path.dirname(__file__)
+example_data_path = os.path.join(base_dir, "example_data.json")
+
+with open(example_data_path, "r", encoding="utf-8") as file: 
     example_data = json.load(file)
 
 
@@ -27,10 +31,10 @@ for all_skills in top_skills_data:
     top_og_skills = truncate_skills.get_top_x_skills(all_skills, TOP_OG_SKILLS)
     clusters = get_skills_clusters(all_skills, CLUSTER_BRANCH_INDEX, TOP_CLUSTERS_USED)
     cluster_skills = retrieve_skills_from_clusters(clusters, CLUSTER_BRANCH_INDEX)
-    print(f"cluster_skills added: {len(cluster_skills)}")
+    print(f"skill added from cluster_skills: {len(cluster_skills)}")
 
     top_skills = list(set(top_og_skills + cluster_skills))
-    print(f"\ntop_skills\n{top_skills}\n")
+    print(f"\ntop_skills - (not_filtered)\n{top_skills}\n")
 """Expand skills from the clusters"""
 
 
@@ -38,6 +42,6 @@ for all_skills in top_skills_data:
 """Filter skills using ChatGPT"""
 skills_filtered = chatgpt_skills_filtering(example_data, top_og_skills, "gpt-4.1-mini")
 
-print(skills_filtered)
+print(f"\ntop_skills - (filtered)\n{skills_filtered}\n")
 """Filter skills using ChatGPT"""
 

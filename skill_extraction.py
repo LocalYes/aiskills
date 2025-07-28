@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import copy
 from collections import Counter
+import os
 
 from utils import embed 
 from utils import text_segmentation 
@@ -92,8 +93,11 @@ def extract_skills_text_list(text_list, TOP_K_MASKED_SKILLS, TOP_K_SKILLS):
     return all_skills_to_return
 
 
+base_dir = os.path.dirname(__file__)
+json_path = os.path.join(base_dir, "data", "ESCO_hierarchies.json")
+
 # Pre load skill hierarchy
-with open(r"C:\Users\artio\OneDrive\Desktop\4_AI_Skills\skill_report\ESCO_hierarchies_[13800]_comb_transersal.json", "r") as file:
+with open(json_path, "r") as file:
     hierarchy = json.load(file)
 
 def get_skills_clusters(skills_list, cluster_branch_index, top_clusters_used=-1):

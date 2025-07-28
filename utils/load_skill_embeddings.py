@@ -1,7 +1,12 @@
 import pickle 
 import numpy as np
+import os
 
-def load_skill_embeddings(path=r"C:\Users\artio\OneDrive\Desktop\2_semantic-course-to-skill\saved_skill_embed\stage_1_UN_skills_1.pkl"):
+base_dir = os.path.dirname(__file__) 
+parent_dir = os.path.abspath(os.path.join(base_dir, ".."))
+embed_path = os.path.join(parent_dir, "data", "ESCO_embeddings.pkl")
+
+def load_skill_embeddings(path=embed_path):
     skill_embeddings = []
     skill_names = []
     with open(path, "rb") as f:
