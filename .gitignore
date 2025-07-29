@@ -1,2 +1,3 @@
 OPENAI_KEY.txt
 data/ESCO_embeddings.pkl
+data/ESCO_embeddings_small.pkl

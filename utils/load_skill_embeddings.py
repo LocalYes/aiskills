@@ -2,11 +2,7 @@ import pickle
 import numpy as np
 import os
 
-base_dir = os.path.dirname(__file__) 
-parent_dir = os.path.abspath(os.path.join(base_dir, ".."))
-embed_path = os.path.join(parent_dir, "data", "ESCO_embeddings.pkl")
-
-def load_skill_embeddings(path=embed_path):
+def load_skill_embeddings(path):
     skill_embeddings = []
     skill_names = []
     with open(path, "rb") as f:

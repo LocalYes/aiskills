@@ -9,11 +9,13 @@ from utils import embed
 from utils import text_segmentation 
 from utils import attention_mechanism
 from utils import load_skill_embeddings
-from utils import truncate_skills
+from utils import text_encoding_flattening
 
 def extract_skills_text_list(text_list, TOP_K_MASKED_SKILLS, TOP_K_SKILLS):
     # Load skill embeddings and names
-    skill_embeddings, skill_names = load_skill_embeddings.load_skill_embeddings()
+    base_dir = os.path.dirname(__file__) 
+    embed_path = os.path.join(base_dir, "data", "ESCO_embeddings.pkl")
+    skill_embeddings, skill_names = load_skill_embeddings.load_skill_embeddings(embed_path)
 
     # split text into bactches
     batch_word_limit = 5500 # ~8191 tokens, limit for text-embedding-3-large
@@ -31,38 +33,20 @@ def extract_skills_text_list(text_list, TOP_K_MASKED_SKILLS, TOP_K_SKILLS):
         # SB - Sentence Based
         # RB - RAKE Based
         SB_text_batch = [text_segmentation.segment_stanza(text) for text in text_batch]
-        RB_text_batch = [text_segmentation.segment_RAKE(text, 15) for text in text_batch]
-        
+        RB_text_batch = [text_segmentation.segment_RAKE(text, 40) for text in text_batch]
 
         """2. Embed the segments"""
-        # Encode/flatten all of the segments into a single list
-        SB_to_embed_key = []
-        SB_to_embed = []
-        for SB_text in SB_text_batch:
-            SB_to_embed_key.append(len(SB_text))
-            SB_to_embed.extend(SB_text)
+        # Flatten
+        SB_to_embed_key, SB_to_embed = text_encoding_flattening.flatten_batch(SB_text_batch)
+        RB_to_embed_key, RB_to_embed = text_encoding_flattening.flatten_batch(RB_text_batch)
 
-        RB_to_embed_key = []
-        RB_to_embed = []
-        for RB_text in RB_text_batch:
-            RB_to_embed_key.append(len(RB_text))
-            RB_to_embed.extend(RB_text)
-        
-
-        # Embedding the segments
+        # Embed
         SB_embed_encode = embed.openai_embed(SB_to_embed)
         RB_embed_encode = embed.openai_embed(RB_to_embed)
 
-        # Decoding all of the segments into original structure
-        SB_embed = []
-        for key in SB_to_embed_key:
-            SB_embed.append(SB_embed_encode[:key])
-            del SB_embed_encode[:key]
-
-        RB_embed = []
-        for key in RB_to_embed_key:
-            RB_embed.append(RB_embed_encode[:key])
-            del RB_embed_encode[:key]
+        # Unflatten
+        SB_embed = text_encoding_flattening.unflatten_batch(SB_embed_encode, SB_to_embed_key)
+        RB_embed = text_encoding_flattening.unflatten_batch(RB_embed_encode, RB_to_embed_key)
 
         # Loop over each job
         for job_i in range(0, len(text_batch)):

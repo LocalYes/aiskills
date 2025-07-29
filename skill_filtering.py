@@ -34,49 +34,47 @@ def chatgpt_send_messages_json(messages, json_schema, model):
 
 def chatgpt_skills_filtering(text_list, skills_list, gpt_model="gpt-4.1-mini", include_rationale_step=False, rationale_statement="skills must be on a level reasonable for a junior/senior highschool student to know."):
     # text_list and skills_list must be parallel lists.
-    
     filtered_skills_list = []
     time_update = time.time()
 
     for i, (text, skills) in enumerate(zip(text_list, skills_list)):
-        print(f"\nFILTERING TEXT   ( {i+1} / {len(text_list)} )  ~  {round(time.time() - time_update, 3)}s")
+        print(f"~  {round(time.time() - time_update, 3)}s")
+        print(f"\nFILTERING TEXT   ( {i+1} / {len(text_list)} ) ")
         time_update = time.time()
 
         print("1. analytical step")
 
         analytical_messages = [
             {"role": "system", "content": '''
-                You are a skills evaluator tasked with determining the alignment between a set of estimated skills and a provided job posting or course description. Your goal is to classify and refine the skill list based on how well the skills match the responsibilities and expectations described in the text. Follow the instructions below:
+                You are a skills evaluator tasked with determining the alignment between a set of predefined skills and a provided job or course description. Your role is to classify and filter only the skills given — do not invent, reword, generalize, or add any new skills. Only work with the skill list exactly as it is provided.
+
+                Follow the instructions below strictly:
 
                 1. Highly Relevant Skills
-                List the skills that are clearly aligned with the job or course. These skills should either be explicitly mentioned or strongly implied.
+                List only the skills from the provided list that are clearly aligned with the job or course. These skills should either be explicitly mentioned or strongly implied in the description.
 
                 2. Possibly Relevant but Less Central
-                List the skills that might apply indirectly, support peripheral functions, or are related but not essential.
+                List only the provided skills that might apply indirectly, support secondary functions, or are related but not essential. Do not assume or stretch relevance beyond what is supported by the description.
 
                 3. Irrelevant or Misaligned Skills
-                List the skills that do not match the description in domain, level, or responsibility.
+                List the provided skills that do not match the description in terms of domain, responsibility, or relevance. Include skills that may belong to different professions or are out of scope.
 
                 4. Final Refined Skill List
-                Based only on section 1 (and a few justified entries from section 2 if applicable), generate a final Python-style list of skills appropriate for the role.
+                Create a final list only using the exact skill phrases from the provided list. Choose skills only from section 1 and, if clearly justifiable, a few from section 2. You must not edit, rephrase, or invent any new skills.
 
-                The final list should represent only the most relevant and context-appropriate skills for the job or course. Format it like this:
+                Format the final list using this structure:
 
-                python
-                Copy
-                Edit
-                [
-                    "skill_1",
-                    "skill_2",
-                    ...
-                ]
-                Avoid emojis or unnecessary commentary.
+                1. skill 1
+                2. skill 2
+                ...
+                Do not use underscores or change the skill wording in any way.
+                Do not add emojis, summaries, or explanations outside the structure.
             '''},
             {"role": "user", "content": f'''
                 TEXT:
                 {text}
 
-                PREDICTED SKILLS:
+                PREDICTED SKILLS (PROVIDED LIST):
                 {skills}
             '''}
         ]
@@ -105,11 +103,12 @@ def chatgpt_skills_filtering(text_list, skills_list, gpt_model="gpt-4.1-mini", i
 
                     ```python
                     [
-                        "skill_1",
-                        "skill_2",
+                        "skill 1",
+                        "skill 2",
                         ...
                     ]
                     Do not add any other explanation or commentary.
+                    Avoid emojis or unnecessary commentary. Please copy the skill letter to letter, no "_".
                 '''},
                 {"role": "user", "content": f'''
                     Here is the previously refined skill list to reassess based on the rationale.
@@ -132,6 +131,8 @@ def chatgpt_skills_filtering(text_list, skills_list, gpt_model="gpt-4.1-mini", i
                 Objective:
                 1. Extract the final list of skills from user input, and output the list of skills acording to the json schema.
                 2. Copy the skills letter to letter, no additional corrections or capitalization. 
+
+                Avoid emojis or unnecessary commentary. Please copy the skill letter to letter, NO "_".
             """},
             {"role": "user", "content": f"""
                 {rational_responce or analytical_responce}
@@ -152,6 +153,5 @@ def chatgpt_skills_filtering(text_list, skills_list, gpt_model="gpt-4.1-mini", i
 
         filtered_skills = chatgpt_send_messages_json(json_messages, json_schema, "gpt-4.1-nano")
         filtered_skills_list.append(filtered_skills["skills"])
-
 
     return filtered_skills_list

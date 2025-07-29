@@ -1,5 +1,13 @@
 from openai import OpenAI
-client = OpenAI(api_key=open(r"C:\Users\artio\OneDrive\Desktop\aiskills\OPENAI_KEY.txt").read().strip())
+import os
+
+
+base_dir = os.path.dirname(__file__) 
+parent_dir = os.path.abspath(os.path.join(base_dir, ".."))
+key_path = os.path.join(parent_dir, "OPENAI_KEY.txt")
+
+
+client = OpenAI(api_key=open(key_path).read().strip())
 
 def openai_embed(to_embed):
     if isinstance(to_embed, str):
